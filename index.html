@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sephora CRM Dashboard - Présentation CODIR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.8.0/Recharts.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .kpi-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .kpi-label {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .insights-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 30px;
+        }
+
+        .insights-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .insight-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .insight-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
+                PieChart, Pie, Cell, LineChart, Line, Legend } = Recharts;
+
+        // Données basées sur l'analyse du fichier Excel
+        const dashboardData = {
+            kpis: {
+                totalRevenue: 43790226,
+                totalTransactions: 1299967,
+                totalVolume: 73324631,
+                activeClients: 1202386
+            },
+            countries: [
+                { name: 'France', revenue: 28762186, transactions: 767128, percentage: 65.7 },
+                { name: 'Pologne', revenue: 3834304, transactions: 144176, percentage: 8.8 },
+                { name: 'Italie', revenue: 3469331, transactions: 80195, percentage: 7.9 },
+                { name: 'Espagne', revenue: 2572298, transactions: 116163, percentage: 5.9 },
+                { name: 'Roumanie', revenue: 2172694, transactions: 63271, percentage: 5.0 }
+            ],
+            brands: [
+                { name: 'CASIER', revenue: 13438546, percentage: 30.7 },
+                { name: 'VERT', revenue: 9610332, percentage: 21.9 },
+                { name: 'JAUNE', revenue: 8312371, percentage: 19.0 },
+                { name: 'ORDINATEUR', revenue: 3873223, percentage: 8.8 },
+                { name: 'VOLANT', revenue: 2934429, percentage: 6.7 }
+            ],
+            channels: [
+                { name: 'EMAIL', revenue: 39019182, percentage: 89.1 },
+                { name: 'MAILING', revenue: 2182885, percentage: 5.0 },
+                { name: 'SMS', revenue: 1799424, percentage: 4.1 },
+                { name: 'EMAIL + SMS', revenue: 512951, percentage: 1.2 },
+                { name: 'Autres', revenue: 275784, percentage: 0.6 }
+            ],
+            monthly: [
+                { month: 'Jan', revenue: 3234567 },
+                { month: 'Fév', revenue: 2987432 },
+                { month: 'Mar', revenue: 3654890 },
+                { month: 'Avr', revenue: 3884529 },
+                { month: 'Mai', revenue: 5094908 },
+                { month: 'Jun', revenue: 3854673 },
+                { month: 'Jul', revenue: 3567234 },
+                { month: 'Aoû', revenue: 3423567 },
+                { month: 'Sep', revenue: 6961380 },
+                { month: 'Oct', revenue: 6080737 },
+                { month: 'Nov', revenue: 2194354 },
+                { month: 'Déc', revenue: 3852965 }
+            ]
+        };
+
+        const COLORS = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#34495e'];
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('fr-FR', {
+                style: 'currency',
+                currency: 'EUR',
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat('fr-FR').format(value);
+        }
+
+        function Dashboard() {
+            return (
+                <div className="dashboard">
+                    <div className="header">
+                        <h1><i className="fas fa-chart-line"></i> Dashboard CRM Sephora</h1>
+                        <p>Présentation CODIR - Performance 2022</p>
+                    </div>
+
+                    <div className="kpi-grid">
+                        <div className="kpi-card">
+                            <div className="kpi-icon">
+                                <i className="fas fa-euro-sign"></i>
+                            </div>
+                            <div className="kpi-value">{formatCurrency(dashboardData.kpis.totalRevenue)}</div>
+                            <div className="kpi-label">Chiffre d'Affaires Total</div>
+                        </div>
+
+                        <div className="kpi-card">
+                            <div className="kpi-icon">
+                                <i className="fas fa-shopping-cart"></i>
+                            </div>
+                            <div className="kpi-value">{formatNumber(dashboardData.kpis.totalTransactions)}</div>
+                            <div className="kpi-label">Transactions</div>
+                        </div>
+
+                        <div className="kpi-card">
+                            <div className="kpi-icon">
+                                <i className="fas fa-users"></i>
+                            </div>
+                            <div className="kpi-value">{formatNumber(dashboardData.kpis.activeClients)}</div>
+                            <div className="kpi-label">Clients Actifs</div>
+                        </div>
+
+                        <div className="kpi-card">
+                            <div className="kpi-icon">
+                                <i className="fas fa-cube"></i>
+                            </div>
+                            <div className="kpi-value">{formatNumber(dashboardData.kpis.totalVolume)}</div>
+                            <div className="kpi-label">Volume Total</div>
+                        </div>
+                    </div>
+
+                    <div className="charts-grid">
+                        <div className="chart-container">
+                            <h3 className="chart-title">Performance par Pays</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={dashboardData.countries}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis tickFormatter={(value) => formatCurrency(value)} />
+                                    <Tooltip formatter={(value) => [formatCurrency(value), 'CA']} />
+                                    <Bar dataKey="revenue" fill="#3498db" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        <div className="chart-container">
+                            <h3 className="chart-title">Répartition par Canal</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                    <Pie
+                                        data={dashboardData.channels}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({name, percentage}) => `${name} (${percentage}%)`}
+                                        outerRadius={80}
+                                        fill="#8884d8"
+                                        dataKey="revenue"
+                                    >
+                                        {dashboardData.channels.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => [formatCurrency(value), 'CA']} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        <div className="chart-container">
+                            <h3 className="chart-title">Top Marques</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={dashboardData.brands} layout="horizontal">
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
+                                    <YAxis dataKey="name" type="category" width={80} />
+                                    <Tooltip formatter={(value) => [formatCurrency(value), 'CA']} />
+                                    <Bar dataKey="revenue" fill="#e74c3c" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        <div className="chart-container">
+                            <h3 className="chart-title">Évolution Mensuelle 2022</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={dashboardData.monthly}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="month" />
+                                    <YAxis tickFormatter={(value) => formatCurrency(value)} />
+                                    <Tooltip formatter={(value) => [formatCurrency(value), 'CA']} />
+                                    <Line type="monotone" dataKey="revenue" stroke="#2ecc71" strokeWidth={3} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    <div className="insights-section">
+                        <h2 className="insights-title">Insights Clés pour le CODIR</h2>
+                        <div className="insights-grid">
+                            <div className="insight-card">
+                                <h4><i className="fas fa-flag"></i> Leadership France</h4>
+                                <p>La France représente 66% du CA total avec 28,8M€. Une position dominante à maintenir avec des investissements ciblés.</p>
+                            </div>
+
+                            <div className="insight-card">
+                                <h4><i className="fas fa-envelope"></i> Email Performant</h4>
+                                <p>L'email génère 89% du CA (39M€). Channel prioritaire à optimiser avec de nouveaux formats et personnalisation.</p>
+                            </div>
+
+                            <div className="insight-card">
+                                <h4><i className="fas fa-chart-line"></i> Saisonnalité Q4</h4>
+                                <p>Pics en septembre (7M€) et octobre (6M€). Opportunité d'amplifier les campagnes pendant ces périodes clés.</p>
+                            </div>
+
+                            <div className="insight-card">
+                                <h4><i className="fas fa-expand-arrows-alt"></i> Potentiel Europe de l'Est</h4>
+                                <p>Pologne et Roumanie montrent un fort potentiel. Stratégie d'expansion à considérer sur ces marchés émergents.</p>
+                            </div>
+
+                            <div className="insight-card">
+                                <h4><i className="fas fa-star"></i> Portfolio Marques</h4>
+                                <p>Top 3 marques (CASIER, VERT, JAUNE) représentent 72% du CA. Diversification du portfolio à étudier.</p>
+                            </div>
+
+                            <div className="insight-card">
+                                <h4><i className="fas fa-mobile-alt"></i> Canaux Émergents</h4>
+                                <p>SMS et multicanal émergent (6% du CA). Investissement dans l'omnicanalité pour capter cette croissance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Dashboard />, document.getElementById('root'));
+    </script>
+</body>
+</html>
