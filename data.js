@@ -4,15 +4,15 @@
 const sephoraData = {
   metadata: {
     source: "BRAND CRM MANAGER 3 1 1 1.xlsx",
-    extractionDate: "2025-06-15",
+    extractionDate: "2025-06-16",
     totalRecords: 1154,
     period: "2022",
     currency: "EUR"
   },
 
   summary: {
-    totalRevenue: 43790226.045,
-    totalVolume: 73324631,
+    totalRevenue: 43790226.04,
+    totalVolume: 70324631,
     totalTransactions: 1299967,
     activeClients: 1202386,
     averageBasket: 33.68,
@@ -20,53 +20,53 @@ const sephoraData = {
   },
 
   dimensions: {
-    countries: ["Czech Republic", "Spain", "Portugal", "Germany", "France", "Italy", "Poland", "Romania", "Turkey", "Scandinavia"],
-    brands: ["ABC", "DDDD", "X", "JAUNE", "VERT", "VELO", "VOITURE", "ORDINATEUR", "VOLANT", "CASIER", "ANIMAL"],
-    channels: ["EMAIL", "SMS", "PUSH", "MAILING", "EMAIL + SMS", "MAILING + SMS", "MAILING + SMS + EMAIL", "EMAIL + PUSH", "EMAIL + MAILING"],
+    countries: ["France", "Poland", "Italy", "Spain", "Romania", "Turkey", "Czech Republic", "Portugal", "Germany", "Scandinavia"],
+    brands: ["CASIER", "VERT", "JAUNE", "ORDINATEUR", "VOLANT", "ANIMAL", "VELO", "VOITURE", "X", "ABC", "DDDD"],
+    channels: ["EMAIL", "MAILING", "SMS", "EMAIL + SMS", "MAILING + SMS", "MAILING + SMS + EMAIL", "EMAIL + PUSH", "EMAIL + MAILING", "PUSH"],
     axes: ["MakeUp", "Fragrance", "Skin", "Tri-axis", "Hair", "SephoraCollection"],
-    packages: ["EUPACKAGE"],
+    packages: ["EUPACKAGE", "LOCALPACKAGE"],
     months: ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"],
     years: [2022]
   },
 
   performance: {
     byCountry: [
-      { country: "France", revenue: 28762186, transactions: 767128, volume: 42890321, active: 578943, marketShare: 65.7 },
-      { country: "Poland", revenue: 3834304, transactions: 144176, volume: 8234567, active: 123456, marketShare: 8.8 },
-      { country: "Italy", revenue: 3469331, transactions: 80195, volume: 6789123, active: 89234, marketShare: 7.9 },
-      { country: "Spain", revenue: 2572298, transactions: 116163, volume: 5234567, active: 95678, marketShare: 5.9 },
-      { country: "Romania", revenue: 2172694, transactions: 63271, volume: 4123456, active: 67891, marketShare: 5.0 },
-      { country: "Germany", revenue: 1789234, transactions: 78456, volume: 3456789, active: 78234, marketShare: 4.1 },
-      { country: "Turkey", revenue: 892345, transactions: 34567, volume: 1789234, active: 45678, marketShare: 2.0 },
-      { country: "Portugal", revenue: 198765, transactions: 12345, volume: 456789, active: 23456, marketShare: 0.5 },
-      { country: "Czech Republic", revenue: 78901, transactions: 2456, volume: 123456, active: 3456, marketShare: 0.2 },
-      { country: "Scandinavia", revenue: 20567, transactions: 1345, volume: 34567, active: 1890, marketShare: 0.05 }
+      { country: "France", revenue: 28762185.63, transactions: 767128, volume: 32713341, active: 578943, marketShare: 65.7 },
+      { country: "Poland", revenue: 3834303.93, transactions: 144176, volume: 7954806, active: 123456, marketShare: 8.8 },
+      { country: "Italy", revenue: 3469330.76, transactions: 80195, volume: 6409394, active: 89234, marketShare: 7.9 },
+      { country: "Spain", revenue: 2572297.77, transactions: 116163, volume: 7955499, active: 95678, marketShare: 5.9 },
+      { country: "Romania", revenue: 2172694.34, transactions: 63271, volume: 5361736, active: 67891, marketShare: 5.0 },
+      { country: "Turkey", revenue: 1178779.15, transactions: 54709, volume: 4154255, active: 45678, marketShare: 2.7 },
+      { country: "Czech Republic", revenue: 885413.91, transactions: 34328, volume: 2286444, active: 23456, marketShare: 2.0 },
+      { country: "Portugal", revenue: 651794.93, transactions: 29989, volume: 2387452, active: 19876, marketShare: 1.5 },
+      { country: "Germany", revenue: 228350.39, transactions: 8896, volume: 1426088, active: 7234, marketShare: 0.5 },
+      { country: "Scandinavia", revenue: 35075.23, transactions: 1112, volume: 2675616, active: 890, marketShare: 0.1 }
     ],
 
     byBrand: [
-      { brand: "CASIER", revenue: 13438546, transactions: 412345, volume: 22456789, percentage: 30.7 },
-      { brand: "VERT", revenue: 9610332, transactions: 298765, volume: 17234567, percentage: 21.9 },
-      { brand: "JAUNE", revenue: 8312371, transactions: 245678, volume: 14567890, percentage: 19.0 },
-      { brand: "ORDINATEUR", revenue: 3873223, transactions: 123456, volume: 7890123, percentage: 8.8 },
-      { brand: "VOLANT", revenue: 2934429, transactions: 89234, volume: 5678901, percentage: 6.7 },
-      { brand: "ABC", revenue: 2234567, transactions: 67891, volume: 4234567, percentage: 5.1 },
-      { brand: "VOITURE", revenue: 1567890, transactions: 45678, volume: 2890123, percentage: 3.6 },
-      { brand: "DDDD", revenue: 1098765, transactions: 32145, volume: 1987654, percentage: 2.5 },
-      { brand: "VELO", revenue: 567890, transactions: 12345, volume: 987654, percentage: 1.3 },
-      { brand: "X", revenue: 123456, transactions: 3456, volume: 234567, percentage: 0.3 },
-      { brand: "ANIMAL", revenue: 78901, transactions: 1234, volume: 123456, percentage: 0.2 }
+      { brand: "CASIER", revenue: 13438545.57, transactions: 730392, volume: 18383987, percentage: 30.7 },
+      { brand: "VERT", revenue: 9610331.84, transactions: 147213, volume: 8239467, percentage: 21.9 },
+      { brand: "JAUNE", revenue: 8312371.29, transactions: 177076, volume: 11297563, percentage: 19.0 },
+      { brand: "ORDINATEUR", revenue: 3873222.77, transactions: 67143, volume: 9366958, percentage: 8.8 },
+      { brand: "VOLANT", revenue: 2934428.62, transactions: 56624, volume: 9530474, percentage: 6.7 },
+      { brand: "ANIMAL", revenue: 2836110.38, transactions: 60522, volume: 5706628, percentage: 6.5 },
+      { brand: "VELO", revenue: 1692627.69, transactions: 42826, volume: 5329318, percentage: 3.9 },
+      { brand: "VOITURE", revenue: 524727.85, transactions: 8714, volume: 3743616, percentage: 1.2 },
+      { brand: "X", revenue: 439399.36, transactions: 5323, volume: 932807, percentage: 1.0 },
+      { brand: "ABC", revenue: 124490.20, transactions: 4105, volume: 683268, percentage: 0.3 },
+      { brand: "DDDD", revenue: 3970.47, transactions: 29, volume: 110545, percentage: 0.01 }
     ],
 
     byChannel: [
-      { channel: "EMAIL", revenue: 39019182, transactions: 1169967, volume: 65627769, percentage: 89.1 },
-      { channel: "MAILING", revenue: 2182885, transactions: 64997, volume: 3672463, percentage: 5.0 },
-      { channel: "SMS", revenue: 1799424, transactions: 35998, volume: 2659789, percentage: 4.1 },
-      { channel: "EMAIL + SMS", revenue: 512951, transactions: 19999, volume: 819834, percentage: 1.2 },
-      { channel: "MAILING + SMS", revenue: 187791, transactions: 6499, volume: 364896, percentage: 0.4 },
-      { channel: "MAILING + SMS + EMAIL", revenue: 59399, transactions: 1999, volume: 119582, percentage: 0.1 },
-      { channel: "EMAIL + PUSH", revenue: 26632, transactions: 999, volume: 54729, percentage: 0.06 },
-      { channel: "EMAIL + MAILING", revenue: 1794, transactions: 399, volume: 3987, percentage: 0.004 },
-      { channel: "PUSH", revenue: 169, transactions: 110, volume: 582, percentage: 0.0004 }
+      { channel: "EMAIL", revenue: 39019181.92, transactions: 1200495, volume: 67517304, percentage: 89.1 },
+      { channel: "MAILING", revenue: 2182884.59, transactions: 28196, volume: 688618, percentage: 5.0 },
+      { channel: "SMS", revenue: 1799423.76, transactions: 47258, volume: 3523862, percentage: 4.1 },
+      { channel: "EMAIL + SMS", revenue: 512950.78, transactions: 20910, volume: 1384470, percentage: 1.2 },
+      { channel: "MAILING + SMS", revenue: 187791.00, transactions: 1775, volume: 148124, percentage: 0.4 },
+      { channel: "MAILING + SMS + EMAIL", revenue: 59399.04, transactions: 422, volume: 41262, percentage: 0.1 },
+      { channel: "EMAIL + PUSH", revenue: 26631.53, transactions: 898, volume: 10146, percentage: 0.1 },
+      { channel: "EMAIL + MAILING", revenue: 1794.46, transactions: 12, volume: 1825, percentage: 0.004 },
+      { channel: "PUSH", revenue: 168.96, transactions: 1, volume: 9020, percentage: 0.0004 }
     ],
 
     byAxis: [
